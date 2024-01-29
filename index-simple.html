@@ -76,8 +76,8 @@
 
         .current-date {
           font-family: 'EB Garamond', serif;
-            font-size: 3.5em;
-            color: #732164; /* Byzantine looking purple */
+            font-size: 4em;
+            color: #B22222; /* Byzantine looking purple */
         }
 
         .gregorian-date {
@@ -133,9 +133,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6 date-display">
 
-              <div class="intro" id="intro">The Day of the Week is</div>
-
-              <div class="dow" id="dow"></div>
+              <div class="intro" id="intro">The Current Date is</div>
 
               <div class="current-date" id="currentDate"></div>
 
@@ -143,7 +141,6 @@
               
               <div class="annoEnglish" id="annoEnglish"></div>
 
-                <div class="current-year" id="currentYear"></div>
                 <div class="anno" id="anno"></div>
 
             </br>
@@ -172,7 +169,7 @@
 
 <footer class="privacy-policy">
   <div class="container">
-      <p class="text-center">© 2024 <a href="https://twitter.com/digiconfucius">Digital Confucius</a> | <a href="./privacy.html">Privacy Policy</a> | <a href="./index-simple.html">Simple Mode</a> </p>
+      <p class="text-center">© 2024 <a href="https://twitter.com/digiconfucius">Digital Confucius</a> | <a href="./privacy.html">Privacy Policy</a> | <a href="./index.html">Complex Mode</a> </p>
   </div>
 </footer>
 
@@ -236,22 +233,20 @@
 
         if (modeSetting == Modes.AnnoMundi) {
           annoElement.innerHTML = "ANNO MUNDI (A.M.)";
-          annoEnglish.innerHTML = "in the years after creation";
 
           displayedToday = byzantineToday;
 
-          gregorianDateElement.innerHTML = "Today's date is reckoned as " + today.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"}) + " on <a href=\"./index.html?mode=ad\">the civil calendar</a>.";
+          gregorianDateElement.innerHTML = "Today's date is reckoned as " + today.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"}) + " on <a href=\"./index-simple.html?mode=ad\">the civil calendar</a>.";
 
         } else if (modeSetting == Modes.AnnoDominiJulian) {
           annoElement.innerHTML = "ANNO DOMINI (A.D.)";
-          annoEnglish.innerHTML = "in the year of Our Lord";
 
           displayedToday = julianToday;
 
-          gregorianDateElement.innerHTML = "Today's date is reckoned as " + byzantineToday.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"}) + " on <a href=\"./index.html\">the A.M. calendar</a>.";
+          gregorianDateElement.innerHTML = "Today's date is reckoned as " + byzantineToday.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"}) + " on <a href=\"./index-simple.html\">the A.M. calendar</a>.";
         }
 
-        currentDateElement.innerHTML = displayedToday.toLocaleDateString('en-us', {month:"long", day:"numeric"});
+        currentDateElement.innerHTML = displayedToday.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"});
         currentYearElement.innerHTML = displayedToday.getFullYear();
 
         dowElement.innerHTML = today.toLocaleDateString('en-us', { weekday:"long"}).toLocaleUpperCase();
