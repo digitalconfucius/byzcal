@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWBSS5SMJC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BWBSS5SMJC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByzCal: Byzantine Calendar</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- EB Garamond -->
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        .calendar-container {
+            padding-top: 100px;
+        }
+        .date-display {
+            background-color: white;
+            border-radius: 10px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .current-date {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .current-year {
+            font-size: 1.5em;
+            color: #6c757d;
+        }
+
+  .privacy-policy {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #6c757d;
+      color: white;
+      text-align: center;
+      padding: 3px 0;
+  }
+
+      .centered-div {
+          max-width: 75%;
+          margin: 0 auto; /* Centers the div */
+          word-wrap: break-word; /* Ensures text wraps */
+      }
+      .scripture-div {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      }
+      .scripture {
+      font-family: 'EB Garamond', serif;
+      }
+
+    </style>
+</head>
+<body>
+    <div class="container calendar-container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 date-display">
+                <div class="current-date" id="currentDate"></div>
+                <div class="current-year" id="currentYear"></div>
+            </div>
+        </div>
+    </div>
+
+<footer class="privacy-policy">
+  <div class="container">
+      <p class="text-center">© 2024 Digital Confucius | <a href="./privacy.html">Privacy Policy</a></p>
+  </div>
+</footer>
+
+    <script>
+        const currentDateElement = document.getElementById('currentDate');
+        const currentYearElement = document.getElementById('currentYear');
+        const today = new Date();
+
+        currentDateElement.innerHTML = today.toLocaleDateString();
+        currentYearElement.innerHTML = today.getFullYear();
+    </script>
+</body>
+</html>
