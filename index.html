@@ -133,11 +133,11 @@
         <div class="row justify-content-center">
             <div class="col-md-6 date-display">
 
-              <div class="intro" id="intro">The day of the week is</div>
+              <div class="intro" id="intro">The Day of the Week is</div>
 
               <div class="dow" id="dow"></div>
             
-              <div class="annoEnglish" id="annoEnglish">in the years after creation</div>
+              <div class="annoEnglish" id="annoEnglish"></div>
 
                 <div class="current-year" id="currentYear"></div>
                 <div class="anno" id="anno"></div>
@@ -246,7 +246,7 @@
 
         } else if (modeSetting == Modes.AnnoDominiJulian) {
           annoElement.innerHTML = "ANNO DOMINI (A.D.)";
-          annoEnglish.innerHTML = "in the years of Our Lord";
+          annoEnglish.innerHTML = "in the year of Our Lord";
 
           displayedToday = julianToday;
 
