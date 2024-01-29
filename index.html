@@ -24,6 +24,11 @@
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
         
     <style>
+
+        a {
+          color: #B22222;
+        } 
+
         body {
             background-color: #f8f9fa;
             color: #495057;
@@ -60,14 +65,13 @@
             font-family: 'EB Garamond', serif;
             font-size: 8em;
             font-weight: bold;
-            color: #B22222;
-
+            color: #B22222; /* Roman looking red / Orthodox feast day red */
         }
 
         .current-date {
           font-family: 'EB Garamond', serif;
             font-size: 3.5em;
-            color: #732164;
+            color: #732164; /* Byzantine looking purple */
         }
 
         .gregorian-date {
@@ -113,7 +117,7 @@
           background-color: #cacbcd;
           color: white;
           text-align: center;
-          padding: 3px 0;
+          padding: 1px 0;
       }
 
     </style>
@@ -146,12 +150,17 @@
 
             </br></br>
 
+            <div class="gregorian-date" id="gregorianDate"></div>
+
             <div class="explain" id="explain">
-              Daily feasts and readings can be found on the <a href="https://www.holytrinityorthodox.com/htc/">HTC, Maryland website</a>.
-            </br>
-              Learn about the Roman Julian calendar [<a href="https://orthodoxwiki.org/Byzantine_Creation_Era">1</a>] [<a href="https://orthodoxwiki.org/Julian_Calendar">2</a>].</div>
-                <div class="gregorian-date" id="gregorianDate"></div>
+              Those interested may learn about the Roman Julian calendar here: [<a href="https://orthodoxwiki.org/Byzantine_Creation_Era">1</a>] [<a href="https://orthodoxwiki.org/Julian_Calendar">2</a>].</div>
                 <div class="disclaimer" id="disclaimer">Be aware that this website will need to be re-tuned in the Year 7608 A.M. (civil 2100).</div>
+
+            </br>
+<div class="explain" id="explain">
+  Daily feasts and readings can be found on the <a href="https://www.holytrinityorthodox.com/htc/">HTC, Maryland website</a>.
+</br> Interested in reading the Bible? Check out <a href="https://digitalconfucius.github.io/daily-bible/">Daily Bible (OSB planner)</a>.
+</div>
 
             </div>
         </div>
