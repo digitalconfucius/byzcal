@@ -34,7 +34,7 @@
         .date-display {
             background-color: white;
             border-radius: 10px;
-            padding: 50px;
+            padding: 30px;
             text-align: center;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
@@ -146,7 +146,10 @@
 
             </br></br>
 
-            <div class="explain" id="explain">Learn about the Roman Julian calendar [<a href="https://orthodoxwiki.org/Byzantine_Creation_Era">1</a>] [<a href="https://orthodoxwiki.org/Julian_Calendar">2</a>].</div>
+            <div class="explain" id="explain">
+              Daily feasts and readings can be found on the <a href="https://www.holytrinityorthodox.com/htc/">HTC, Maryland website</a>.
+            </br>
+              Learn about the Roman Julian calendar [<a href="https://orthodoxwiki.org/Byzantine_Creation_Era">1</a>] [<a href="https://orthodoxwiki.org/Julian_Calendar">2</a>].</div>
                 <div class="gregorian-date" id="gregorianDate"></div>
                 <div class="disclaimer" id="disclaimer">Be aware that this website will need to be re-tuned in the Year 7608 A.M. (civil 2100).</div>
 
@@ -181,7 +184,11 @@
 
         byzantineToday.setDate(byzantineToday.getDate() - JULIAN_OFFSET_DAYS);
 
-        // Add 1 year after September 1, and remove it on January 1
+        // Add 1 year after September 14 (NS), and remove it on January 1 (NS)
+        // Note: January is 0, February is 1, ..., September is 8
+        if (today.getMonth() > 8 || (today.getMonth() === 8 && today.getDate() >= 14)) {
+            byzantineToday.setFullYear(byzantineToday.getFullYear() + 1);
+        }
 
         currentDateElement.innerHTML = byzantineToday.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"});
         currentYearElement.innerHTML = byzantineToday.getFullYear();
