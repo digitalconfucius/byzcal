@@ -13,12 +13,14 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ByzCal: Byzantine Calendar</title>
+    <title>Byzantine Calendar</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- EB Garamond -->
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+        
     <style>
         body {
             background-color: #f8f9fa;
@@ -34,37 +36,82 @@
             text-align: center;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .current-date {
+
+        .intro {
+            font-family: 'EB Garamond', serif;
             font-size: 2em;
+        }
+        .middle {
+            font-family: 'EB Garamond', serif;
+            font-size: 2em;
+            font-style: italic;
+        }
+
+        .anno {
+            font-family: 'EB Garamond', serif;
+            font-size: 2em;
+            color: #111111;
             font-weight: bold;
         }
+
         .current-year {
-            font-size: 1.5em;
-            color: #6c757d;
+            font-family: 'EB Garamond', serif;
+            font-size: 8em;
+            font-weight: bold;
+            color: #B22222;
+
         }
 
-  .privacy-policy {
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      background-color: #6c757d;
-      color: white;
-      text-align: center;
-      padding: 3px 0;
-  }
+        .current-date {
+          font-family: 'EB Garamond', serif;
+            font-size: 3.5em;
+            color: #732164;
+        }
 
-      .centered-div {
-          max-width: 75%;
-          margin: 0 auto; /* Centers the div */
-          word-wrap: break-word; /* Ensures text wraps */
-      }
-      .scripture-div {
-      font-family: 'EB Garamond', serif;
-      font-size: 20px;
-      }
-      .scripture {
-      font-family: 'EB Garamond', serif;
+        .gregorian-date {
+          font-family: 'EB Garamond', serif;
+            font-size: 1.1em;
+            color: #b0b4b7;
+        }
+
+        .dow {
+          font-family: 'EB Garamond', serif;
+            font-size: 4em;
+            color: #732164;
+
+        }
+
+        .outro {
+          font-family: 'EB Garamond', serif;
+            font-size: 1.5em;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .explain {
+          font-family: 'EB Garamond', serif;
+            font-size: 1.1em;
+            color: #b0b4b7;
+        }
+
+        .disclaimer {
+          font-family: 'EB Garamond', serif;
+            font-size: .9em;
+            color: #cccccc;
+            font-style: italic;
+        }
+
+      .privacy-policy {
+        font-family: 'EB Garamond', serif;
+
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          background-color: #cacbcd;
+          color: white;
+          text-align: center;
+          padding: 3px 0;
       }
 
     </style>
@@ -73,8 +120,34 @@
     <div class="container calendar-container">
         <div class="row justify-content-center">
             <div class="col-md-6 date-display">
-                <div class="current-date" id="currentDate"></div>
+
+              <div class="intro" id="intro">The day of the week is</div>
+
+              <div class="dow" id="dow"></div>
+            
+              <div class="middle" id="middle">in the years after creation</div>
+
                 <div class="current-year" id="currentYear"></div>
+                <div class="anno" id="anno">ANNO MUNDI (A.M.)</div>
+
+            </br>
+
+                <div class="intro" id="intro">and the current date is</div>
+
+                <div class="current-date" id="currentDate"></div>
+
+            </br>
+                <div class="outro" id="outro">according to the Roman Julian calendar.</div>
+
+          </br>
+                <img src="./logo.png">
+
+            </br></br>
+
+            <div class="explain" id="explain">Learn about the Roman Julian calendar [<a href="https://orthodoxwiki.org/Byzantine_Creation_Era">1</a>] [<a href="https://orthodoxwiki.org/Julian_Calendar">2</a>].</div>
+                <div class="gregorian-date" id="gregorianDate"></div>
+                <div class="disclaimer" id="disclaimer">Be aware that this website will need to be re-tuned in the Year 7608 A.M. (civil 2100).</div>
+
             </div>
         </div>
     </div>
@@ -86,12 +159,35 @@
 </footer>
 
     <script>
+
+        // Current difference between Gregorian and Byzantine year.
+        const BYZ_OFFSET_YEAR = 5508;
+
+        // Remove 13 days for now... Need to retune it in 60 years if this website is even still around.
+        const JULIAN_OFFSET_DAYS = 13;
+
         const currentDateElement = document.getElementById('currentDate');
         const currentYearElement = document.getElementById('currentYear');
-        const today = new Date();
+        const gregorianDateElement = document.getElementById('gregorianDate');
+        const dowElement = document.getElementById('dow');
 
-        currentDateElement.innerHTML = today.toLocaleDateString();
-        currentYearElement.innerHTML = today.getFullYear();
+        const today = new Date();
+        
+        // Add the byzantine offset.
+        const byzantineToday = new Date();
+        byzantineToday.setFullYear(today.getFullYear() + BYZ_OFFSET_YEAR);
+
+        byzantineToday.setDate(byzantineToday.getDate() - JULIAN_OFFSET_DAYS);
+
+        // Add 1 year after September 1, and remove it on January 1
+
+        currentDateElement.innerHTML = byzantineToday.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"});
+        currentYearElement.innerHTML = byzantineToday.getFullYear();
+
+        gregorianDateElement.innerHTML = "Today's date is also reckoned as " + today.toLocaleDateString('en-us', {year:"numeric", month:"long", day:"numeric"}) + " on the civil calendar."
+
+        dowElement.innerHTML = today.toLocaleDateString('en-us', { weekday:"long"}).toLocaleUpperCase();
+
     </script>
 </body>
 </html>
