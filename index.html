@@ -158,7 +158,10 @@
 
             <div class="explain" id="explain">
               You may learn more about the Roman Julian calendar here: [<a href="https://orthodoxwiki.org/Byzantine_Creation_Era">1</a>] [<a href="https://orthodoxwiki.org/Julian_Calendar">2</a>].</div>
-                <div class="disclaimer" id="disclaimer">Be aware that this website will need to be re-tuned in the Year 7608 A.M. (civil 2100).</div>
+                <div class="disclaimer" id="disclaimer">This website calculates the True Julian Calendar and will never need to be re-tuned.
+                </br>Other calculators may need to be adjusted in the Year 7608 A.M. (civil 2100).
+
+                </div>
 
             </br>
 <div class="explain" id="explain">
@@ -200,33 +203,96 @@
           modeSetting = Modes.AnnoDominiJulian;
         }
 
-        // Current difference between Gregorian and Byzantine year.
+        let today = new Date();
+
+        // Test out the calendar by replacing the date.
+        // September 14 (NS) : Church New Year before 2100 AD
+        // September 15 (NS) : Church New Year after 2100 AD
+        // Years 2100, 2200, 2300... AD : New Leap Day discrepancies emerge between Julian and Gregorian
+        // today = new Date(2100, 8, 15);
+
+        const byzantineToday = new Date(today);
+        const julianToday = new Date(today);
+
+        // Important! TRUE Julian Calendar patch! Here's how it works... 
+        // This calendar was "calibrated" in January 2024. 
+        
+        // Overall difference between the Gregorian and Byzantine year.
         const BYZ_OFFSET_YEAR = 5508;
+        
+        // We remove 13 days from Gregorian according to the calibration.
+        let JULIAN_OFFSET_DAYS = 13;
 
-        // Remove 13 days for now... Need to retune it in 60 years if this website is even still around.
-        const JULIAN_OFFSET_DAYS = 13;
+        // Leap year counter: Count the number of years that have passed since 2024 which are reckoned as leap years
+        //     by the Julian calendar but NOT the Gregorian calendar.
+        // Note to self: Does this concept even make sense considering that the year is reckoned as 7532? Whatever...
+        for (let i = 2024; i <= today.getFullYear(); i++) {
 
-        const currentDateElement = document.getElementById('currentDate');
-        const currentYearElement = document.getElementById('currentYear');
-        const gregorianDateElement = document.getElementById('gregorianDate');
-        const dowElement = document.getElementById('dow');
+          // Julian Leap Year rule: Every 4 years is a Leap Year.
+          let isJulianLeapYear = (i % 4 == 0);
 
-        const today = new Date();
-        const byzantineToday = new Date();
-        const julianToday = new Date();
+          // TODO: Currently unused, but might have to use it later if it turns out AM Leap Years are important.
+          let isAnnoMundiLeapYear = ((i + BYZ_OFFSET_YEAR) % 4 == 0); 
+
+          // Gregorian Leap Year rule: Every 4 years, unless divisible by 100; with the exception of 400-divisible years.
+          let isGregorianLeapYear = (i % 4 == 0 && i % 100 != 0) || (i % 400 == 0);
+
+          console.log("Checking year : " + i + "; isJulianLeapYear: " + isJulianLeapYear + "; isGregorianLeapYear: " + isGregorianLeapYear);
+
+          if (isJulianLeapYear && !isGregorianLeapYear) {
+            
+            let isThisYear = (i == today.getFullYear);
+
+            // If it's NOT THIS YEAR, we add the previous accumulated leap day discrepancies without worrying.
+            if (!isThisYear) {
+              console.log("important: adding +1 for a leap day discrepancy (previous year)");
+
+              JULIAN_OFFSET_DAYS += 1;
+              continue;
+            }
+
+            // If it's THIS year specifically, add the leap day only after Feb 28 (OS)
+            if (isThisYear) {
+
+              let julianDateTemp = new Date(today);
+              julianDateTemp.setDate(julianDateTemp.getDate() - JULIAN_OFFSET_DAYS);
+
+              // Note: January is 0, February is 1, ..., September is 8
+              if (julianDateTemp.getMonth() > 1 || (julianDateTemp.getMonth() === 1 && julianDateTemp.getDate() >= 28)) {
+
+                console.log("important: adding +1 for a leap day discrepancy (current year, on or after leap day)");
+
+                JULIAN_OFFSET_DAYS += 1;
+              }
+
+              continue;
+            }
+          }
+        }
 
         // Add the byzantine offset for Anno Mundi
         byzantineToday.setFullYear(today.getFullYear() + BYZ_OFFSET_YEAR);
 
-        // Add 1 year after September 14 (NS), and remove it on January 1 (NS)
+        // Create the Church New Year, September 1 (OS) translated into New Style (Gregorian)
+        let churchNewYearGregorian = new Date(today.getFullYear(), 8, 1);
+        churchNewYearGregorian.setDate(churchNewYearGregorian.getDate() + JULIAN_OFFSET_DAYS);
+
+        // Add 1 year after Church New Year, but ignore this rule after January 1 (NS), since that's when the civil New Year is added.
         // Note: January is 0, February is 1, ..., September is 8
-        if (today.getMonth() > 8 || (today.getMonth() === 8 && today.getDate() >= 14)) {
+        if (today.getTime() >= churchNewYearGregorian.getTime()) {
+            console.log("Church New Year has passed. Adding a year to compensate.")
             byzantineToday.setFullYear(byzantineToday.getFullYear() + 1);
         }
 
         // Add the Julian offset
         byzantineToday.setDate(byzantineToday.getDate() - JULIAN_OFFSET_DAYS);
         julianToday.setDate(julianToday.getDate() - JULIAN_OFFSET_DAYS);
+
+        // Display stuff
+        const currentDateElement = document.getElementById('currentDate');
+        const currentYearElement = document.getElementById('currentYear');
+        const gregorianDateElement = document.getElementById('gregorianDate');
+        const dowElement = document.getElementById('dow');
 
         let displayedToday = today;
 
@@ -255,7 +321,8 @@
         currentYearElement.innerHTML = displayedToday.getFullYear();
 
         dowElement.innerHTML = today.toLocaleDateString('en-us', { weekday:"long"}).toLocaleUpperCase();
-
     </script>
+    
+    <script src="./index.js"></script>
 </body>
 </html>

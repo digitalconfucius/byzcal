@@ -203,11 +203,6 @@
         // Remove 13 days for now... Need to retune it in 60 years if this website is even still around.
         const JULIAN_OFFSET_DAYS = 13;
 
-        const currentDateElement = document.getElementById('currentDate');
-        const currentYearElement = document.getElementById('currentYear');
-        const gregorianDateElement = document.getElementById('gregorianDate');
-        const dowElement = document.getElementById('dow');
-
         const today = new Date();
         const byzantineToday = new Date();
         const julianToday = new Date();
@@ -224,6 +219,12 @@
         // Add the Julian offset
         byzantineToday.setDate(byzantineToday.getDate() - JULIAN_OFFSET_DAYS);
         julianToday.setDate(julianToday.getDate() - JULIAN_OFFSET_DAYS);
+
+        // Display stuff
+        const currentDateElement = document.getElementById('currentDate');
+        const currentYearElement = document.getElementById('currentYear');
+        const gregorianDateElement = document.getElementById('gregorianDate');
+        const dowElement = document.getElementById('dow');
 
         let displayedToday = today;
 
